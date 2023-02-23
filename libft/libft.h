@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 15:50:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/02/15 13:02:09 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/02/23 08:49:46 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char			*ft_strrchr(const char *s, int c);
 char			*ft_strcpy(char *dest, const char *src);
 void			ft_striteri(char *s, void (*f)(unsigned int, char*));
 char			*ft_strjoin(const char *s1, const char *s2);
+char			*ft_strjoin_malloced(char *s1, char *s2);
 size_t			ft_strlcpy(char *dest, const char *src, size_t size);
 size_t			ft_strlcat(char *dest, const char *src, size_t size);
 size_t			ft_strlen(const char *str);

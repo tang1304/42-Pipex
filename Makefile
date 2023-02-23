@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
 BONUS_DIR = ./bonus/
 SRCS_DIR = ./srcs/
-SRCS = pipex.c parsing.c
+SRCS = pipex.c parsing.c utils.c
 SRCS_BONUS = pipex_bonus.c 
 OBJ_DIR = objs/
 OBJ = ${SRCS:%.c=${OBJ_DIR}%.o}
@@ -34,11 +34,11 @@ ${NAME_BONUS} :	${OBJ_BONUS} ${LIBFT}
 
 ${OBJ}: ${OBJ_DIR}%.o :	${SRCS_DIR}%.c ${HEADER} ${LIBFT}
 		@mkdir -p objs
-		${CC} ${CFLAGS} -I/usr/include -I${MLX_DIR} -c $< -o $@
+		${CC} ${CFLAGS} -I/usr/include -c $< -o $@
 
 ${OBJ_BONUS}: ${OBJ_DIR}%.o :	${BONUS_DIR}%.c ${HEADER_BONUS} ${LIBFT}
 		@mkdir -p objs
-		${CC} ${CFLAGS} -I/usr/include -I${MLX_DIR} -c $< -o $@
+		${CC} ${CFLAGS} -I/usr/include -c $< -o $@
 
 ${LIBFT}: FORCE
 		${MAKE} -sC ${LIBFT_DIR}
