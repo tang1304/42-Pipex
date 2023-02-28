@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 17:24:43 by tgellon           #+#    #+#             */
-/*   Updated: 2023/02/24 17:06:50 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/02/28 11:34:44 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,27 +49,22 @@ void	get_cmd(char *argv, t_pipex *pipex, char **cmd_args, char **envp)
 	int		i;
 	char	*tmp;
 
-	i = 0;
+	i = -1;
 	cmd_args = ft_split(argv, ' ');
 	if (cmd_args == NULL)
 		ft_perror("Malloc error");
 	tmp = ft_strjoin("/", cmd_args[0]);
 	if (tmp == NULL)
 		ft_perror("Malloc error");
-	while (pipex->paths[i])
+	while (pipex->paths[++i])
 	{
 		join_path_and_cmd(pipex, tmp, i);
-//		ft_putendl_fd(pipex->path, 2);
 		if (access(pipex->path, X_OK) == 0)
 		{
 			if (execve(pipex->path, cmd_args, envp) == -1)
 				ft_perror("Exec error");
 		}
 		free(pipex->path);
-		i++;
 	}
-	free_split(cmd_args);
-//	free_split(pipex->paths);
-	free(tmp);
-	ft_perror("Cmd error");
+	get_cmd_error(pipex, cmd_args, tmp, i);
 }

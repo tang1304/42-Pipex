@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:55:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/02/24 16:56:12 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/02/28 11:57:48 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,23 @@
 
 static void	first_command(char **argv, char **envp, t_pipex *pipex)
 {
-	(void)argv;
-	(void)envp;
-
-	if (dup2(pipex->fd[1], STDOUT_FILENO) == -1)
+	if (dup2(pipex->pipe[1], STDOUT_FILENO) == -1)
 		ft_perror("Dup error");
 	if (dup2(pipex->input, STDIN_FILENO) == -1)
 		ft_perror("Dup error");
-	close(pipex->fd[0]);//
-	close(pipex->input);
-	close(pipex->fd[1]);//closed the 2 fds of the child cause it is now in stdout
+	pipex->file1_status = 0;
+	close_parents(pipex);
 	get_cmd(argv[2], pipex, pipex->cmd1, envp);
 }
 
 static void	second_command(char **argv, char **envp, t_pipex *pipex)
 {
-	if (dup2(pipex->fd[0], STDIN_FILENO) == -1)
+	if (dup2(pipex->pipe[0], STDIN_FILENO) == -1)
 		ft_perror("dup error");
 	if (dup2(pipex->output, STDOUT_FILENO) == -1)
 		ft_perror("Dup error");
-	close(pipex->fd[1]);//closed the 2 fds of the child cause it is now in stdin
-	close(pipex->output);
-	close(pipex->fd[0]);//
+	pipex->file2_status = 0;
+	close_parents(pipex);
 	get_cmd(argv[3], pipex, pipex->cmd2, envp);
 }
 
@@ -43,18 +38,28 @@ static void	open_files(t_pipex *pipex, char *file1, char *file2)
 {
 	pipex->input = open(file1, O_RDONLY);
 	if (pipex->input == -1)
-		ft_perror("Opening error");
+		perror(file1);
+	pipex->file1_status = 1;
 	pipex->output = open(file2, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (pipex->output == -1)
-		ft_perror("Opening Error");
+		perror(file2);
+	pipex->file2_status = 1;
 }
 
-static void	close_parents(t_pipex *pipex)
+void	close_parents(t_pipex *pipex)
 {
 	close(pipex->input);
 	close(pipex->output);
-	close(pipex->fd[0]);
-	close(pipex->fd[1]);
+	close(pipex->pipe[0]);
+	close(pipex->pipe[1]);
+}
+
+static void	data_init(t_pipex *pipex)
+{
+	pipex->input = -2;
+	pipex->output = -2;
+	pipex->file1_status = 0;
+	pipex->file2_status = 0;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -63,9 +68,10 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 5)
 		ft_error(ARGS_ERROR);
+	data_init(&pipex);
 	open_files(&pipex, argv[1], argv[4]);
 	pipex.paths = get_paths(envp);
-	if (pipe(pipex.fd) == -1)
+	if (pipe(pipex.pipe) == -1)
 	{
 		free_split(pipex.paths);
 		ft_perror("Pipe error");

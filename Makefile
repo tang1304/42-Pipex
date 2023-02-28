@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
 BONUS_DIR = ./bonus/
 SRCS_DIR = ./srcs/
-SRCS = pipex.c parsing.c utils.c
+SRCS = pipex.c parsing.c utils.c errors.c
 SRCS_BONUS = pipex_bonus.c 
 OBJ_DIR = objs/
 OBJ = ${SRCS:%.c=${OBJ_DIR}%.o}
@@ -24,11 +24,11 @@ _GREEN	:=	\033[1;32m
 
 # --- RULES --- #
 
-${NAME} :	${OBJ} ${LIBFT}
+${NAME} :	${OBJ}
 		${CC} ${CFLAGS} ${OBJ} ${LIBFT} -o ${NAME}
 		@echo "${_GREEN}### ${NAME} created ###${_NOC}\n"
 
-${NAME_BONUS} :	${OBJ_BONUS} ${LIBFT}
+${NAME_BONUS} :	${OBJ_BONUS}
 		${CC} ${CFLAGS} ${OBJ_BONUS} ${LIBFT} -o ${NAME_BONUS}
 		@echo "${_GREEN}### ${NAME_BONUS} created ###${_NOC}\n"
 
