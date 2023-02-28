@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 17:24:43 by tgellon           #+#    #+#             */
-/*   Updated: 2023/02/28 11:34:44 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/02/28 16:31:36 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ char	**get_paths(char **envp)
 	int		i;
 
 	i = -1;
+//	if (ft_strchr(argv))
 	while (envp[++i])
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
@@ -66,5 +67,8 @@ void	get_cmd(char *argv, t_pipex *pipex, char **cmd_args, char **envp)
 		}
 		free(pipex->path);
 	}
-	get_cmd_error(pipex, cmd_args, tmp, i);
+	free_split(cmd_args);
+	free_split_from_i(pipex->paths, i);
+	free(tmp);
+	get_cmd_error(argv);
 }

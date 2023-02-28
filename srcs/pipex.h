@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:55:52 by tgellon           #+#    #+#             */
-/*   Updated: 2023/02/28 11:20:05 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/02/28 15:18:57 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ void	free_split_from_i(char **str, int i);
 /*	errors.c	*/
 void	ft_error(char *str);
 void	ft_perror(char *str);
-void	get_cmd_error(t_pipex *pipex, char **cmd_args, char *path, int i);
+void	get_cmd_error(char *cmd);
 
 #endif

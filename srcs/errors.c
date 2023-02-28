@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 11:39:54 by tgellon           #+#    #+#             */
-/*   Updated: 2023/02/28 09:56:58 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/02/28 15:22:42 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,9 @@ void	ft_perror(char *str)
 	exit(EXIT_FAILURE);
 }
 
-void	get_cmd_error(t_pipex *pipex, char **cmd_args, char *path, int i)
+void	get_cmd_error(char *cmd)
 {
-	free_split(cmd_args);
-	free_split_from_i(pipex->paths, i);
-	free(path);
-	//  if (pipex->file1_status == 1)
-	// 	close(pipex->input);
-	// if (pipex->file2_status == 1)
-	// 	close(pipex->output);
-	ft_perror("Cmd error");
+	ft_putstr_fd(cmd, 2);
+	ft_putendl_fd(": command not found", 2);
+	exit(EXIT_FAILURE);
 }

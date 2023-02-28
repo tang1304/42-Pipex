@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:55:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/02/28 11:57:48 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/02/28 13:57:52 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 static void	first_command(char **argv, char **envp, t_pipex *pipex)
 {
+	if (pipex->input == -1)
+	{
+		close_parents(pipex);
+		free_split(pipex->paths);
+		exit(EXIT_FAILURE);
+	}
 	if (dup2(pipex->pipe[1], STDOUT_FILENO) == -1)
 		ft_perror("Dup error");
 	if (dup2(pipex->input, STDIN_FILENO) == -1)
@@ -25,6 +31,12 @@ static void	first_command(char **argv, char **envp, t_pipex *pipex)
 
 static void	second_command(char **argv, char **envp, t_pipex *pipex)
 {
+	if (pipex->output == -1)
+	{
+		close_parents(pipex);
+		free_split(pipex->paths);
+		exit(EXIT_FAILURE);
+	}
 	if (dup2(pipex->pipe[0], STDIN_FILENO) == -1)
 		ft_perror("dup error");
 	if (dup2(pipex->output, STDOUT_FILENO) == -1)
@@ -48,8 +60,10 @@ static void	open_files(t_pipex *pipex, char *file1, char *file2)
 
 void	close_parents(t_pipex *pipex)
 {
-	close(pipex->input);
-	close(pipex->output);
+	if (pipex->input != -1)
+		close(pipex->input);
+	if (pipex->output != -1)
+		close(pipex->output);
 	close(pipex->pipe[0]);
 	close(pipex->pipe[1]);
 }
@@ -91,99 +105,3 @@ int	main(int argc, char **argv, char **envp)
 	waitpid(pipex.pid2, NULL, 0);
 	free_split(pipex.paths);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-char	**find_path(char **envp)
-{
-	char **tab;
-
-	tab = NULL;
-	for (int i = 0; envp[i]; i++)
-	{
-		if (ft_strnstr(envp[i], "PATH", ft_strlen(envp[i])))
-			tab = ft_split(ft_strnstr(envp[i], "/", ft_strlen(envp[i])), ':');
-	}
-	return (tab);
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	int	fd[2];
-	int	pid, pid2;
-	int	fd_in;
-	int	fd_out;
-	char	**tab;
-	char	**path;
-	char	*str;
-
-	path = find_path(envp);
-	pipe(fd);
-	fd_in = open(argv[1], O_RDONLY);
-	fd_out = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777); // fd_out
-	pid = fork();
-	if (pid == 0)
-	{
-		dup2(fd_in, STDIN_FILENO);
-		dup2(fd[1], STDOUT_FILENO);
-			tab = ft_split(argv[2], ' ');
-			for (int k = 0; path[k]; k++)
-			{
-				str = ft_strjoin(path[k], tab[0]);
-				if (access(str, X_OK) == 0)
-					execve(str, tab, envp);
-				free(str);
-			}
-			exit(0);
-	}
-	pid2 = fork();
-	if (pid2 == 0)
-	{
-		dup2(fd[0], STDIN_FILENO);
-		//dup2(fd_out, STDOUT_FILENO); //la redirection de stdout vers fd_out ne marche pas
-		tab = ft_split(argv[3], ' ');
-			for (int k = 0; path[k]; k++)
-			{
-				str = ft_strjoin(path[k], tab[0]);
-				if (access(str, X_OK) == 0)
-					execve(str, tab, envp);
-				free(str);
-			}
-			exit(0);
-	}
-	return (0);
-}*/
