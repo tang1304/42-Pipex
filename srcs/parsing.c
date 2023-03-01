@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 17:24:43 by tgellon           #+#    #+#             */
-/*   Updated: 2023/02/28 16:31:36 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/01 10:33:51 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ char	**get_paths(char **envp)
 	int		i;
 
 	i = -1;
-//	if (ft_strchr(argv))
 	while (envp[++i])
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
@@ -45,6 +44,19 @@ static void	join_path_and_cmd(t_pipex *pipex, char *cmd, int i)
 	}
 }
 
+static void	check_if_absolute_path(t_pipex *pipex, char *argv, \
+									char **cmd_args, char **envp)
+{
+	if (access(cmd_args[0], X_OK) == 0)
+	{
+		if (execve(cmd_args[0], cmd_args, envp) == -1)
+			ft_perror("Exec error");
+	}
+	free_split(cmd_args);
+	free_split(pipex->paths);
+	get_cmd_error(argv);
+}
+
 void	get_cmd(char *argv, t_pipex *pipex, char **cmd_args, char **envp)
 {
 	int		i;
@@ -54,6 +66,8 @@ void	get_cmd(char *argv, t_pipex *pipex, char **cmd_args, char **envp)
 	cmd_args = ft_split(argv, ' ');
 	if (cmd_args == NULL)
 		ft_perror("Malloc error");
+	if (ft_strchr(cmd_args[0], '/') != NULL)
+		check_if_absolute_path(pipex, argv, cmd_args, envp);
 	tmp = ft_strjoin("/", cmd_args[0]);
 	if (tmp == NULL)
 		ft_perror("Malloc error");
@@ -67,8 +81,6 @@ void	get_cmd(char *argv, t_pipex *pipex, char **cmd_args, char **envp)
 		}
 		free(pipex->path);
 	}
-	free_split(cmd_args);
-	free_split_from_i(pipex->paths, i);
-	free(tmp);
+	free_all(pipex, cmd_args, tmp, i);
 	get_cmd_error(argv);
 }

@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:55:52 by tgellon           #+#    #+#             */
-/*   Updated: 2023/02/28 15:18:57 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/01 10:37:23 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ typedef struct s_pipex
 	int		pipe[2];
 	int		pid1;
 	int		pid2;
-	int		file1_status;
-	int		file2_status;
 	int		input;
 	int		output;
 	char	*path;
@@ -38,9 +36,6 @@ typedef struct s_pipex
 	char	**cmd2;
 }	t_pipex;
 
-/*	pipex.c	*/
-void	close_parents(t_pipex *pipex);
-
 /*	parsing.c	*/
 char	**get_paths(char **envp);
 void	get_cmd(char *argv, t_pipex *pipex, char **cmd_args, char **envp);
@@ -48,6 +43,8 @@ void	get_cmd(char *argv, t_pipex *pipex, char **cmd_args, char **envp);
 /*	utils.c	*/
 void	free_split(char **str);
 void	free_split_from_i(char **str, int i);
+void	free_all(t_pipex *pipex, char **cmd_args, char *cmd, int i);
+void	close_parents(t_pipex *pipex);
 
 /*	errors.c	*/
 void	ft_error(char *str);
