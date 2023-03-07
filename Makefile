@@ -3,8 +3,8 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
 BONUS_DIR = ./bonus/
 SRCS_DIR = ./srcs/
-SRCS = pipex.c parsing.c utils.c errors.c
-SRCS_BONUS = pipex_bonus.c 
+SRCS = pipex.c cmd_parsing.c utils.c errors.c
+SRCS_BONUS = pipex_bonus.c parsing_bonus.c utils_bonus.c errors_bonus.c
 OBJ_DIR = objs/
 OBJ = ${SRCS:%.c=${OBJ_DIR}%.o}
 OBJ_BONUS = ${SRCS_BONUS:%.c=${OBJ_DIR}%.o}

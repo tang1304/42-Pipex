@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   errors_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/27 11:39:54 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/02 15:05:42 by tgellon          ###   ########lyon.fr   */
+/*   Created: 2023/03/01 12:50:41 by tgellon           #+#    #+#             */
+/*   Updated: 2023/03/06 11:13:28 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	ft_error(char *str)
 {
@@ -27,7 +27,7 @@ void	ft_perror(char *str)
 void	get_cmd_error(char *cmd)
 {
 	ft_putstr_fd(cmd, 2);
-	write(2, ": command not found\n", 20);
+	ft_putendl_fd(": command not found", 2);
 	exit(EXIT_FAILURE);
 }
 

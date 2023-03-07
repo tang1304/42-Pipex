@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:08:18 by tgellon           #+#    #+#             */
-/*   Updated: 2023/01/18 13:59:13 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/06 15:43:29 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	else
 		dest = (char *)malloc(sizeof(const char) * (len + 1));
 	if (!dest)
-		return (NULL);
+		return (free(temp), NULL);
 	i = -1;
 	while (++i < len && s[start])
 	{

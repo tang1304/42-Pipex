@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 16:15:24 by tgellon           #+#    #+#             */
-/*   Updated: 2023/02/15 15:32:50 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/06 15:45:21 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	line = ft_get_str(stock);
+	// if (!line)
+	// 	return (free(stock), NULL);
 	stock = ft_clear(stock);
 	return (line);
 }

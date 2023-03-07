@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:55:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/01 11:04:26 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/02 16:20:43 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void	first_command(char **argv, char **envp, t_pipex *pipex)
 {
-	pipex->pid1 = fork();//creates first child for the first cmd
+	pipex->pid1 = fork();
 	if ((pipex->pid1 == -1))
-		ft_perror("PID error");
-	if (pipex->pid1 == 0)// child 1 process
+		ft_perror("Fork error");
+	if (pipex->pid1 == 0)
 	{
 		if (pipex->input == -1)
 		{
@@ -36,10 +36,10 @@ static void	first_command(char **argv, char **envp, t_pipex *pipex)
 
 static void	second_command(char **argv, char **envp, t_pipex *pipex)
 {
-	pipex->pid2 = fork();//creates 2nd child for the 2nd cmd
+	pipex->pid2 = fork();
 	if (pipex->pid2 == -1)
-		ft_perror("PID error");
-	if (pipex->pid2 == 0)//child 2 process
+		ft_perror("Fork error");
+	if (pipex->pid2 == 0)
 	{
 		if (pipex->output == -1)
 		{
@@ -48,12 +48,34 @@ static void	second_command(char **argv, char **envp, t_pipex *pipex)
 			exit(EXIT_FAILURE);
 		}
 		if (dup2(pipex->pipe[0], STDIN_FILENO) == -1)
-			ft_perror("dup error");
+			ft_perror("Dup error");
 		if (dup2(pipex->output, STDOUT_FILENO) == -1)
 			ft_perror("Dup error");
 		close_parents(pipex);
 		get_cmd(argv[3], pipex, pipex->cmd2, envp);
 	}
+}
+
+static char	**get_paths(char **envp)
+{
+	char	*envp_path;
+	char	**paths;
+	int		i;
+
+	i = -1;
+	while (envp[++i])
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+		{
+			envp_path = ft_strnstr(envp[i], "PATH=", ft_strlen(envp[i]));
+			if (envp_path != NULL)
+				break ;
+		}
+	}
+	paths = ft_split(envp_path + 5, ':');
+	if (paths == NULL)
+		ft_perror("Malloc error");
+	return (paths);
 }
 
 static void	open_files(t_pipex *pipex, char *file1, char *file2)
@@ -64,12 +86,6 @@ static void	open_files(t_pipex *pipex, char *file1, char *file2)
 	pipex->output = open(file2, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (pipex->output == -1)
 		perror(file2);
-}
-
-static void	data_init(t_pipex *pipex)
-{
-	pipex->input = -2;
-	pipex->output = -2;
 }
 
 int	main(int argc, char **argv, char **envp)

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/17 09:55:52 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/02 16:20:54 by tgellon          ###   ########lyon.fr   */
+/*   Created: 2023/03/01 12:49:00 by tgellon           #+#    #+#             */
+/*   Updated: 2023/03/07 15:33:21 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 # include <unistd.h>
 # include <limits.h>
 # include <stdlib.h>
@@ -21,26 +21,30 @@
 # include <errno.h>
 # include "../libft/libft.h"
 
-# define ARGS_ERROR	"Wrong args input\nMust be : ./pipex file1 cmd1 cmd2 file2"
+# define ARGS_ERROR	"Wrong args input\nMust be : ./pipex_bonus file1 \
+cmd_x_times  file2"
 
 typedef struct s_pipex
 {
-	int		pipe[2];
-	int		pid1;
-	int		pid2;
+	int		*pipes;
+	int		pipe_nbr;
+	int		cmd_nbr;
+	int		cmd;
 	int		input;
 	int		output;
+	int		here_doc;
 	char	*path;
 	char	**paths;
-	char	**cmd1;
-	char	**cmd2;
 }	t_pipex;
 
 /*	cmd_parsing.c	*/
-void	get_cmd(char *argv, t_pipex *pipex, char **cmd_args, char **envp);
+void	get_cmd(char *argv, t_pipex *pipex, char **envp);
+
+/*	cmd_selection	*/
+void	command_init(char *argv, char **envp, t_pipex *pipex);
 
 /*	utils.c	*/
-void	data_init(t_pipex *pipex);
+void	data_init(t_pipex *pipex, int argc, char **argv);
 void	free_split(char **str);
 void	free_split_from_i(char **str, int i);
 void	free_all(t_pipex *pipex, char **cmd_args, char *cmd, int i);

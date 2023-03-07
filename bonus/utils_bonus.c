@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/21 14:35:54 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/06 10:41:05 by tgellon          ###   ########lyon.fr   */
+/*   Created: 2023/03/01 12:51:01 by tgellon           #+#    #+#             */
+/*   Updated: 2023/03/07 14:35:59 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
-void	data_init(t_pipex *pipex)
+void	data_init(t_pipex *pipex, int argc, char **argv)
 {
+	// if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+//		pipex->here_doc = 1;
+	// else
+	// 	pipex->here_doc = 0;
 	pipex->input = -2;
 	pipex->output = -2;
+	pipex->cmd_nbr = argc - 3 - pipex->here_doc;
+	pipex->pipe_nbr = (pipex->cmd_nbr - 1) * 2;
 }
 
 void	free_split(char **str)
