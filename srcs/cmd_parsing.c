@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 17:24:43 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/02 16:38:46 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 15:56:07 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static void	pre_check_on_cmd(t_pipex *pipex, char *argv)
 	if (argv[0] == '\0')
 	{
 		write(2, "Command '' not found\n", 21);
+		close_all(pipex);
 		free_split(pipex->paths);
 		exit(EXIT_FAILURE);
 	}

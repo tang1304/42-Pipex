@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:49:00 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/07 15:33:21 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/16 09:14:28 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@
 # include "../libft/libft.h"
 
 # define ARGS_ERROR	"Wrong args input\nMust be : ./pipex_bonus file1 \
-cmd_x_times  file2"
+cmd_x_times file2"
 
 typedef struct s_pipex
 {
-	int		*pipes;
+	int		pipes[2];
+	int		*children;
 	int		pipe_nbr;
 	int		cmd_nbr;
 	int		cmd;
@@ -41,7 +42,7 @@ typedef struct s_pipex
 void	get_cmd(char *argv, t_pipex *pipex, char **envp);
 
 /*	cmd_selection	*/
-void	command_init(char *argv, char **envp, t_pipex *pipex);
+void	pipex_init(char **argv, char **envp, t_pipex *pipex);
 
 /*	utils.c	*/
 void	data_init(t_pipex *pipex, int argc, char **argv);

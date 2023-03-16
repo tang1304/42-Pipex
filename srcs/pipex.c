@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:55:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/02 16:20:43 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/09 15:37:10 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,13 @@ static void	first_command(char **argv, char **envp, t_pipex *pipex)
 			exit(EXIT_FAILURE);
 		}
 		if (dup2(pipex->pipe[1], STDOUT_FILENO) == -1)
+		{
 			ft_perror("Dup error");
+		}
 		if (dup2(pipex->input, STDIN_FILENO) == -1)
+		{
 			ft_perror("Dup error");
+		}
 		close_parents(pipex);
 		get_cmd(argv[2], pipex, pipex->cmd1, envp);
 	}

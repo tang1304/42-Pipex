@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:50:32 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/07 15:32:26 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/15 11:50:02 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ static void	open_files(t_pipex *pipex, int ac, char **av)
 {
 	if (pipex->here_doc == 1)
 	{
-		pipex->input = open(x, O_RDONLY);
-		if (pipex->input == -1)
-			perror(x);
-		pipex->output = open(av[ac - 1], O_CREAT | O_WRONLY | O_APPEND, 0644);
-		if (pipex->output == -1)
-			perror(av[ac - 1]);
+		// pipex->input = open(x, O_RDONLY);
+		// if (pipex->input == -1)
+		// 	perror(x);
+		// pipex->output = open(av[ac - 1], O_CREAT | O_WRONLY | O_APPEND, 0644);
+		// if (pipex->output == -1)
+		// 	perror(av[ac - 1]);
 		pipex->cmd = 3;
 	}
 	else
@@ -67,14 +67,8 @@ int	main(int argc, char **argv, char **envp)
 	data_init(&pipex, argc, argv);
 	open_files(&pipex, argc, argv);
 	pipex.paths = get_paths(envp);
-	if (dup2(pipex.input, STDIN_FILENO) == -1)
-	{
-		free_split(pipex.paths);
-		ft_perror("Dup error");
-	}
-	while (pipex.cmd < argc - 2)
-		command_init(argv[pipex.cmd++], envp, &pipex);
-	if ()
+	pipex_init(argv, envp, &pipex);
 	close_parents(&pipex);
 	free_split(pipex.paths);
+	free(pipex.children);
 }
