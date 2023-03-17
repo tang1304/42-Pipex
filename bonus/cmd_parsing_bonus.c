@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:50:49 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/15 12:06:43 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/17 13:43:27 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	check_if_absolute_path(t_pipex *pipex, \
 		perror(cmd_args[0]);
 		free_split(cmd_args);
 		free_split(pipex->paths);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 	if (execve(cmd_args[0], cmd_args, envp) == -1)
 	{
@@ -57,10 +57,9 @@ static void	pre_check_on_cmd(t_pipex *pipex, char *argv)
 	if (argv[0] == '\0')
 	{
 		write(2, "Command '' not found\n", 21);
-		close(STDIN_FILENO);
-		close(STDOUT_FILENO);
+		close_all(pipex);
 		free_split(pipex->paths);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 	if (argv[0] == '.' && !argv[1])
 	{
@@ -77,6 +76,9 @@ static void	loop_on_path(t_pipex *pipex, char **cmd_args, \
 	int	i;
 
 	i = -1;
+	ft_putstr_fd("Ici\n", 2);
+	if (pipex->paths == NULL)
+		return ;
 	while (pipex->paths[++i])
 	{
 		join_path_and_cmd(pipex, cmd, i);
@@ -87,7 +89,7 @@ static void	loop_on_path(t_pipex *pipex, char **cmd_args, \
 		}
 		free(pipex->path);
 	}
-	close_parents(pipex);
+	// close_parents(pipex);
 	free_all(pipex, cmd_args, cmd, i);
 }
 

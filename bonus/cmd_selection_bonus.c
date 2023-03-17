@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 15:30:40 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/16 16:42:37 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/17 10:43:28 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	middle_command(t_pipex *pipex)
 	close(pipex->pipes[1]);
 }
 
-static void	command_init(t_pipex *pipex, char **argv, char ** envp, int i)
+static void	command_init(t_pipex *pipex, char **argv, char **envp, int i)
 {
 	pipex->children[i] = fork();
 	if ((pipex->children[i] == -1))

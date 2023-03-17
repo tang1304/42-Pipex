@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:50:32 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/15 11:50:02 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/17 14:08:55 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ static char	**get_paths(char **envp)
 	char	**paths;
 	int		i;
 
+	if (envp[0] == NULL)
+	{
+		ft_putstr_fd("la\n", 2);
+		return (NULL);
+	}
 	i = -1;
 	while (envp[++i])
 	{
@@ -65,6 +70,8 @@ int	main(int argc, char **argv, char **envp)
 	if (argc < 5)
 		ft_error(ARGS_ERROR);
 	data_init(&pipex, argc, argv);
+	// if (pipex.here_doc)
+	// 	here_doc_init(&pipex, argc);
 	open_files(&pipex, argc, argv);
 	pipex.paths = get_paths(envp);
 	pipex_init(argv, envp, &pipex);

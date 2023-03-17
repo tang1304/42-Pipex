@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:55:52 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/09 15:56:42 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/17 09:31:59 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 # include <errno.h>
 # include "../libft/libft.h"
 
-# define ARGS_ERROR	"Wrong args input\nMust be : ./pipex file1 cmd1 cmd2 file2"
+# define ARGS_ERROR	"Wrong args input\nMust be : ./pipex file1 cmd1 cmd2 file2 \
+\n"
 
 typedef struct s_pipex
 {

@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 17:24:43 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/09 15:56:07 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/17 08:57:02 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	check_if_absolute_path(t_pipex *pipex, \
 		perror(cmd_args[0]);
 		free_split(cmd_args);
 		free_split(pipex->paths);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 	if (execve(cmd_args[0], cmd_args, envp) == -1)
 	{
@@ -59,7 +59,7 @@ static void	pre_check_on_cmd(t_pipex *pipex, char *argv)
 		write(2, "Command '' not found\n", 21);
 		close_all(pipex);
 		free_split(pipex->paths);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 	if (argv[0] == '.' && !argv[1])
 	{
