@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:51:01 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/16 14:39:46 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/16 16:55:56 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,6 @@ void	close_parents(t_pipex *pipex)
 		close(pipex->output);
 	close(pipex->pipes[0]);
 	close(pipex->pipes[1]);
-	// close (STDIN_FILENO);
-	// close (STDOUT_FILENO);
+	close (STDIN_FILENO);
+	close (STDOUT_FILENO);
 }
