@@ -6,17 +6,11 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 11:39:54 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/17 08:55:39 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/21 15:32:59 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	ft_error(char *str)
-{
-	ft_putendl_fd(str, 2);
-	exit(EXIT_FAILURE);
-}
 
 void	ft_perror(char *str)
 {
@@ -24,10 +18,19 @@ void	ft_perror(char *str)
 	exit(EXIT_FAILURE);
 }
 
+void	dup2_error(t_pipex *pipex)
+{
+	close_fds(pipex);
+	free_split(pipex->paths);
+	ft_perror("Dup error");
+}
+
 void	get_cmd_error(char *cmd)
 {
 	ft_putstr_fd(cmd, 2);
 	write(2, ": command not found\n", 20);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	exit(EXIT_FAILURE);
 }
 

@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:51:01 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/20 14:37:43 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/21 14:06:08 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ void	close_parents(t_pipex *pipex)
 
 void	close_all(t_pipex *pipex)
 {
-	if (pipex->input != -1)
+	if (pipex->input != -1 && pipex->input != -2)
 		close(pipex->input);
-	if (pipex->output != -1)
+	if (pipex->output != -1 && pipex->output != -2)
 		close(pipex->output);
 	close(pipex->pipes[0]);
 	close(pipex->pipes[1]);

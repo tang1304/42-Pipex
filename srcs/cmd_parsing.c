@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 17:24:43 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/17 08:57:02 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/21 16:03:24 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	check_if_absolute_path(t_pipex *pipex, \
 		perror(cmd_args[0]);
 		free_split(cmd_args);
 		free_split(pipex->paths);
-		exit(127);
+		exit(EXIT_SUCCESS);
 	}
 	if (execve(cmd_args[0], cmd_args, envp) == -1)
 	{
@@ -59,14 +59,14 @@ static void	pre_check_on_cmd(t_pipex *pipex, char *argv)
 		write(2, "Command '' not found\n", 21);
 		close_all(pipex);
 		free_split(pipex->paths);
-		exit(127);
+		exit(EXIT_SUCCESS);
 	}
 	if (argv[0] == '.' && !argv[1])
 	{
 		write(2, ".: filename argument required\n", 30);
 		write(2, ".: usage: . filename [arguments]\n", 33);
 		free_split(pipex->paths);
-		exit(EXIT_FAILURE);
+		exit(EXIT_SUCCESS);
 	}
 }
 
@@ -100,13 +100,19 @@ void	get_cmd(char *argv, t_pipex *pipex, char **cmd_args, char **envp)
 		free_split(pipex->paths);
 		ft_perror("Malloc error");
 	}
+	if (cmd_args[0] == NULL)
+	{
+		free_split(cmd_args);
+		free_split(pipex->paths);
+		get_cmd_error(argv);
+	}
 	if (ft_strchr(cmd_args[0], '/') != NULL)
 		check_if_absolute_path(pipex, cmd_args, envp);
 	tmp = ft_strjoin("/", cmd_args[0]);
 	if (tmp == NULL)
 	{
-		free_split(pipex->paths);
 		free_split(cmd_args);
+		free_split(pipex->paths);
 		ft_perror("Malloc error");
 	}
 	loop_on_path(pipex, cmd_args, envp, tmp);

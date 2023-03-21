@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:50:49 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/17 14:16:02 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/21 14:56:18 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static void	pre_check_on_cmd(t_pipex *pipex, char *argv)
 	{
 		write(2, "Command '' not found\n", 21);
 		close_all(pipex);
+		free(pipex->children);
 		free_split(pipex->paths);
 		exit(127);
 	}
@@ -65,6 +66,8 @@ static void	pre_check_on_cmd(t_pipex *pipex, char *argv)
 	{
 		write(2, ".: filename argument required\n", 30);
 		write(2, ".: usage: . filename [arguments]\n", 33);
+		close_all(pipex);
+		free(pipex->children);
 		free_split(pipex->paths);
 		exit(EXIT_FAILURE);
 	}
@@ -88,7 +91,6 @@ static void	loop_on_path(t_pipex *pipex, char **cmd_args, \
 		}
 		free(pipex->path);
 	}
-	// close_parents(pipex);
 	free_all(pipex, cmd_args, cmd, i);
 }
 
@@ -109,10 +111,12 @@ void	get_cmd(char *argv, t_pipex *pipex, char **envp)
 	tmp = ft_strjoin("/", cmd_args[0]);
 	if (tmp == NULL)
 	{
+		free(pipex->children);
 		free_split(pipex->paths);
 		free_split(cmd_args);
 		ft_perror("Malloc error");
 	}
 	loop_on_path(pipex, cmd_args, envp, tmp);
+	close_all(pipex);
 	get_cmd_error(argv);
 }

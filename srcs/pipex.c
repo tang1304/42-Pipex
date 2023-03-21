@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:55:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/20 08:33:46 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/21 15:34:49 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,15 @@ static void	first_command(char **argv, char **envp, t_pipex *pipex)
 	{
 		if (pipex->input == -1)
 		{
-			close_parents(pipex);
+			close_fds(pipex);
 			free_split(pipex->paths);
 			exit(EXIT_FAILURE);
 		}
 		if (dup2(pipex->pipe[1], STDOUT_FILENO) == -1)
-		{
-			close_parents(pipex);
-			free_split(pipex->paths);
-			ft_perror("Dup error");
-		}
+			dup2_error(pipex);
 		if (dup2(pipex->input, STDIN_FILENO == -1))
-		{
-			close_all(pipex);
-			free_split(pipex->paths);
-			ft_perror("Dup error");
-		}
-		close_parents(pipex);
+			dup2_error(pipex);
+		close_fds(pipex);
 		get_cmd(argv[2], pipex, pipex->cmd1, envp);
 	}
 }
@@ -51,15 +43,15 @@ static void	second_command(char **argv, char **envp, t_pipex *pipex)
 	{
 		if (pipex->output == -1)
 		{
-			close_parents(pipex);
+			close_fds(pipex);
 			free_split(pipex->paths);
 			exit(EXIT_FAILURE);
 		}
 		if (dup2(pipex->pipe[0], STDIN_FILENO) == -1)
-			ft_perror("Dup error");
+			dup2_error(pipex);
 		if (dup2(pipex->output, STDOUT_FILENO) == -1)
-			ft_perror("Dup error");
-		close_parents(pipex);
+			dup2_error(pipex);
+		close_fds(pipex);
 		get_cmd(argv[3], pipex, pipex->cmd2, envp);
 	}
 }
@@ -101,7 +93,10 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex	pipex;
 
 	if (argc != 5)
-		ft_error(ARGS_ERROR);
+	{
+		ft_putendl_fd(ARGS_ERROR, 2);
+		exit(EXIT_FAILURE);
+	}
 	data_init(&pipex);
 	open_files(&pipex, argv[1], argv[4]);
 	pipex.paths = get_paths(envp);
@@ -113,7 +108,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	first_command(argv, envp, &pipex);
 	second_command(argv, envp, &pipex);
-	close_parents(&pipex);
+	close_fds(&pipex);
 	waitpid(pipex.pid1, NULL, 0);
 	waitpid(pipex.pid2, NULL, 0);
 	free_split(pipex.paths);

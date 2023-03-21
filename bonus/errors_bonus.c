@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:50:41 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/17 08:55:46 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/21 14:32:57 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	directory_error(char *str)
 
 void	execve_error(t_pipex *pipex, char **cmd_args)
 {
+	free(pipex->children);
 	free_split(cmd_args);
 	free_split(pipex->paths);
 	write(2, "Execve error\n", 13);

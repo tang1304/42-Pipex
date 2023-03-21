@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address
 BONUS_DIR = ./bonus/
 SRCS_DIR = ./srcs/
-SRCS = pipex.c cmd_parsing.c utils.c errors.c
+SRCS = pipex.c cmd_parsing.c errors.c utils.c utils_2.c
 SRCS_BONUS = pipex_bonus.c cmd_parsing_bonus.c cmd_selection_bonus.c \
 			 utils_bonus.c errors_bonus.c  here_doc_bonus.c
 OBJ_DIR = objs/

@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 10:10:15 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/21 10:52:34 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/21 16:02:46 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	here_doc_init(t_pipex *pipex, char **argv, int argc)
 	if (dup2(pipex->pipes[0], STDIN_FILENO) == -1)
 	{
 		free(pipex->children);
-		ft_perror("Fork error");
+		ft_perror("Dupe error");
 	}
 	close(pipex->pipes[0]);
 	close(pipex->pipes[1]);
