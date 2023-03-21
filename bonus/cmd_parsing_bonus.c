@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:50:49 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/17 13:43:27 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/17 14:16:02 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ static void	loop_on_path(t_pipex *pipex, char **cmd_args, \
 	int	i;
 
 	i = -1;
-	ft_putstr_fd("Ici\n", 2);
 	if (pipex->paths == NULL)
 		return ;
 	while (pipex->paths[++i])

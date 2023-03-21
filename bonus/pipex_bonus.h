@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:49:00 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/17 10:40:47 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/20 10:28:15 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	get_cmd(char *argv, t_pipex *pipex, char **envp);
 void	pipex_init(char **argv, char **envp, t_pipex *pipex);
 
 /*	here_doc_bonus.c	*/
-void	here_doc_init(t_pipex *pipex, int argc);
+void	here_doc_init(t_pipex *pipex, char **argv, int argc);
 
 /*	errors_bonus.c	*/
 void	ft_error(char *str);

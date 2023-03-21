@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:55:52 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/17 09:31:59 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/17 16:15:38 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	data_init(t_pipex *pipex);
 void	free_split(char **str);
 void	free_split_from_i(char **str, int i);
 void	free_all(t_pipex *pipex, char **cmd_args, char *cmd, int i);
+void	in_out_close(t_pipex *pipex);
 void	close_parents(t_pipex *pipex);
 void	close_all(t_pipex *pipex);
 

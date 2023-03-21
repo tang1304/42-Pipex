@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 15:30:40 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/17 10:43:28 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/20 15:46:42 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ static void	last_command(t_pipex *pipex)
 		// }
 		exit(EXIT_FAILURE);
 	}
+	ft_putstr_fd("last\n", 2);
 	close(pipex->pipes[0]);
 	if (dup2(pipex->output, STDOUT_FILENO) == -1)
 	{
-		ft_putstr_fd("ici\n", 2);
 		close(STDIN_FILENO);
 		close_parents(pipex);
 		free_split(pipex->paths);
@@ -64,6 +64,7 @@ static void	last_command(t_pipex *pipex)
 
 static void	middle_command(t_pipex *pipex)
 {
+	ft_putstr_fd("middle\n", 2);
 	close(pipex->pipes[0]);
 	if (dup2(pipex->pipes[1], STDOUT_FILENO) == -1)
 		ft_perror("Dup error");
@@ -77,8 +78,7 @@ static void	command_init(t_pipex *pipex, char **argv, char **envp, int i)
 		ft_perror("Fork error");
 	if (pipex->children[i] == 0)
 	{
-		if ((pipex->here_doc == 0 && pipex->cmd == 2) \
-			|| (pipex->here_doc == 1 && pipex->cmd == 3))
+		if (pipex->here_doc == 0 && pipex->cmd == 2)
 			first_command(pipex);
 		else if (pipex->cmd == pipex->cmd_nbr + 1)
 			last_command(pipex);

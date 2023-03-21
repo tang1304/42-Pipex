@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 14:35:54 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/09 15:54:07 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/17 16:15:03 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,14 @@ void	free_all(t_pipex *pipex, char **cmd_args, char *cmd, int i)
 	free_split(cmd_args);
 	free_split_from_i(pipex->paths, i);
 	free(cmd);
+}
+
+void	in_out_close(t_pipex *pipex)
+{
+	if (pipex->input != -1)
+		close(pipex->input);
+	if (pipex->output != -1)
+		close(pipex->output);
 }
 
 void	close_parents(t_pipex *pipex)

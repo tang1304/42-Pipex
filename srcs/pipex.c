@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:55:45 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/17 14:07:11 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/20 08:33:46 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,14 @@ static void	first_command(char **argv, char **envp, t_pipex *pipex)
 		}
 		if (dup2(pipex->pipe[1], STDOUT_FILENO) == -1)
 		{
+			close_parents(pipex);
+			free_split(pipex->paths);
 			ft_perror("Dup error");
 		}
-		if (dup2(pipex->input, STDIN_FILENO) == -1)
+		if (dup2(pipex->input, STDIN_FILENO == -1))
 		{
+			close_all(pipex);
+			free_split(pipex->paths);
 			ft_perror("Dup error");
 		}
 		close_parents(pipex);
@@ -103,6 +107,7 @@ int	main(int argc, char **argv, char **envp)
 	pipex.paths = get_paths(envp);
 	if (pipe(pipex.pipe) == -1)
 	{
+		in_out_close(&pipex);
 		free_split(pipex.paths);
 		ft_perror("Pipe error");
 	}
