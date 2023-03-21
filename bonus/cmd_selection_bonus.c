@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 15:30:40 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/20 15:46:42 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/21 10:43:17 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,8 @@ static void	first_command(t_pipex *pipex)
 	if (pipex->input == -1)
 	{
 		close_parents(pipex);
+		free(pipex->children);
 		free_split(pipex->paths);
-		// if (pipex->here_doc)
-		// {
-		// 	;
-		// }
 		exit(EXIT_FAILURE);
 	}
 	close(pipex->pipes[0]);
@@ -44,14 +41,10 @@ static void	last_command(t_pipex *pipex)
 	if (pipex->output == -1)
 	{
 		close_parents(pipex);
+		free(pipex->children);
 		free_split(pipex->paths);
-		// if (pipex->here_doc)
-		// {
-		// 	;
-		// }
 		exit(EXIT_FAILURE);
 	}
-	ft_putstr_fd("last\n", 2);
 	close(pipex->pipes[0]);
 	if (dup2(pipex->output, STDOUT_FILENO) == -1)
 	{
@@ -64,7 +57,6 @@ static void	last_command(t_pipex *pipex)
 
 static void	middle_command(t_pipex *pipex)
 {
-	ft_putstr_fd("middle\n", 2);
 	close(pipex->pipes[0]);
 	if (dup2(pipex->pipes[1], STDOUT_FILENO) == -1)
 		ft_perror("Dup error");
@@ -80,7 +72,8 @@ static void	command_init(t_pipex *pipex, char **argv, char **envp, int i)
 	{
 		if (pipex->here_doc == 0 && pipex->cmd == 2)
 			first_command(pipex);
-		else if (pipex->cmd == pipex->cmd_nbr + 1)
+		else if ((pipex->cmd == pipex->cmd_nbr + 1 && pipex->here_doc == 0) \
+				|| (pipex->here_doc == 1 && pipex->cmd == pipex->cmd_nbr + 2))
 			last_command(pipex);
 		else
 			middle_command(pipex);

@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 10:10:15 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/20 15:53:51 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/21 10:52:34 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	get_hd_input(t_pipex *pipex, char **argv)
 
 	while (1)
 	{
-		ft_putstr_fd("> ", 2);
+		ft_putstr_fd("here_doc > ", 1);
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 		{

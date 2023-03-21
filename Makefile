@@ -46,7 +46,7 @@ ${LIBFT}: FORCE
 
 FORCE:
 
-all :	${NAME}
+all :	${NAME} ${NAME_BONUS}
 
 bonus :	${NAME_BONUS}
 
