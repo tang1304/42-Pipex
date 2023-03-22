@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 11:39:54 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/21 15:32:59 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/22 08:56:51 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	get_cmd_error(char *cmd)
 	write(2, ": command not found\n", 20);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
 	exit(EXIT_FAILURE);
 }
 

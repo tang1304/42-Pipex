@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:51:01 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/21 14:06:08 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/22 10:15:05 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,28 +58,4 @@ void	free_all(t_pipex *pipex, char **cmd_args, char *cmd, int i)
 	free_split_from_i(pipex->paths, i);
 	free(cmd);
 	free(pipex->children);
-}
-
-void	close_parents(t_pipex *pipex)
-{
-	if (pipex->input != -1 && pipex->input != -2)
-		close(pipex->input);
-	if (pipex->output != -1 && pipex->output != -2)
-		close(pipex->output);
-	close(pipex->pipes[0]);
-	close(pipex->pipes[1]);
-	close (STDIN_FILENO);
-	close (STDOUT_FILENO);
-}
-
-void	close_all(t_pipex *pipex)
-{
-	if (pipex->input != -1 && pipex->input != -2)
-		close(pipex->input);
-	if (pipex->output != -1 && pipex->output != -2)
-		close(pipex->output);
-	close(pipex->pipes[0]);
-	close(pipex->pipes[1]);
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
 }

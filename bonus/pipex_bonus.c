@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:50:32 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/20 15:38:28 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/22 10:14:32 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,17 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex	pipex;
 
 	if (argc < 5)
-		ft_error(ARGS_ERROR);
+	{
+		ft_putendl_fd(ARGS_ERROR, 2);
+		exit(EXIT_FAILURE);
+	}
 	data_init(&pipex, argc, argv);
 	if (pipex.here_doc)
 		here_doc_init(&pipex, argv, argc);
 	open_files(&pipex, argc, argv);
 	pipex.paths = get_paths(&pipex, envp);
 	pipex_init(argv, envp, &pipex);
-	close_parents(&pipex);
+	close_fds(&pipex);
 	if (pipex.paths != NULL)
 		free_split(pipex.paths);
 	free(pipex.children);

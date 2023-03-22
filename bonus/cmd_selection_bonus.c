@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 15:30:40 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/21 10:43:17 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/22 10:14:16 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	first_command(t_pipex *pipex)
 {
 	if (pipex->input == -1)
 	{
-		close_parents(pipex);
+		close_fds(pipex);
 		free(pipex->children);
 		free_split(pipex->paths);
 		exit(EXIT_FAILURE);
@@ -40,7 +40,7 @@ static void	last_command(t_pipex *pipex)
 {
 	if (pipex->output == -1)
 	{
-		close_parents(pipex);
+		close_fds(pipex);
 		free(pipex->children);
 		free_split(pipex->paths);
 		exit(EXIT_FAILURE);
@@ -49,7 +49,7 @@ static void	last_command(t_pipex *pipex)
 	if (dup2(pipex->output, STDOUT_FILENO) == -1)
 	{
 		close(STDIN_FILENO);
-		close_parents(pipex);
+		close_fds(pipex);
 		free_split(pipex->paths);
 		ft_perror("Dup error");
 	}
@@ -107,7 +107,7 @@ void	pipex_init(char **argv, char **envp, t_pipex *pipex)
 		close(pipex->pipes[1]);
 		pipex->cmd++;
 	}
-	close_parents(pipex);
+	close_all(pipex);
 	while (waitpid(-1, NULL, 0) < 0)
 		;
 }

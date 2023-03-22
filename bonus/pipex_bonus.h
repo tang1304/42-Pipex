@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:49:00 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/20 10:28:15 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/22 10:54:04 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	pipex_init(char **argv, char **envp, t_pipex *pipex);
 void	here_doc_init(t_pipex *pipex, char **argv, int argc);
 
 /*	errors_bonus.c	*/
-void	ft_error(char *str);
 void	ft_perror(char *str);
+void	pre_check_cmd_error(t_pipex *pipex);
 void	get_cmd_error(char *cmd);
 void	execve_error(t_pipex *pipex, char **cmd_args);
 void	directory_error(char *str);
@@ -61,7 +61,7 @@ void	data_init(t_pipex *pipex, int argc, char **argv);
 void	free_split(char **str);
 void	free_split_from_i(char **str, int i);
 void	free_all(t_pipex *pipex, char **cmd_args, char *cmd, int i);
-void	close_parents(t_pipex *pipex);
+void	close_fds(t_pipex *pipex);
 void	close_all(t_pipex *pipex);
 
 #endif

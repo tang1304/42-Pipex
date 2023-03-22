@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 10:10:15 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/21 16:02:46 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/22 10:06:34 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	here_doc_init(t_pipex *pipex, char **argv, int argc)
 	if (argc < 6)
 	{
 		free(pipex->children);
-		ft_error(HERE_DOC_ARGS_ERROR);
+		ft_putendl_fd(ARGS_ERROR, 2);
+		exit(EXIT_FAILURE);
 	}
 	if (pipe(pipex->pipes) == -1)
 	{

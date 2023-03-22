@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 17:24:43 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/21 16:03:24 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/22 09:04:31 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,19 @@ static void	pre_check_on_cmd(t_pipex *pipex, char *argv)
 	}
 }
 
-static void	loop_on_path(t_pipex *pipex, char **cmd_args, \
-							char **envp, char *cmd)
+static void	loop_on_path(t_pipex *pipex, char **cmd_args, char **envp)
 {
-	int	i;
+	int		i;
+	char	*cmd;
 
 	i = -1;
+	cmd = ft_strjoin("/", cmd_args[0]);
+	if (cmd == NULL)
+	{
+		free_split(cmd_args);
+		free_split(pipex->paths);
+		ft_perror("Malloc error");
+	}
 	while (pipex->paths[++i])
 	{
 		join_path_and_cmd(pipex, cmd, i);
@@ -91,8 +98,6 @@ static void	loop_on_path(t_pipex *pipex, char **cmd_args, \
 
 void	get_cmd(char *argv, t_pipex *pipex, char **cmd_args, char **envp)
 {
-	char	*tmp;
-
 	pre_check_on_cmd(pipex, argv);
 	cmd_args = ft_split(argv, ' ');
 	if (cmd_args == NULL)
@@ -108,13 +113,6 @@ void	get_cmd(char *argv, t_pipex *pipex, char **cmd_args, char **envp)
 	}
 	if (ft_strchr(cmd_args[0], '/') != NULL)
 		check_if_absolute_path(pipex, cmd_args, envp);
-	tmp = ft_strjoin("/", cmd_args[0]);
-	if (tmp == NULL)
-	{
-		free_split(cmd_args);
-		free_split(pipex->paths);
-		ft_perror("Malloc error");
-	}
-	loop_on_path(pipex, cmd_args, envp, tmp);
+	loop_on_path(pipex, cmd_args, envp);
 	get_cmd_error(argv);
 }
