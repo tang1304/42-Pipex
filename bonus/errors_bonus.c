@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:50:41 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/22 10:53:05 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/22 17:05:17 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	pre_check_cmd_error(t_pipex *pipex)
 void	get_cmd_error(char *cmd)
 {
 	ft_putstr_fd(cmd, 2);
-	ft_putendl_fd(": command not found", 2);
+	write(2, ": command not found\n", 20);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);

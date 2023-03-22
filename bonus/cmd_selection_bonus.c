@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 15:30:40 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/22 10:14:16 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/22 17:10:57 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	pipex_init(char **argv, char **envp, t_pipex *pipex)
 		pipex->cmd++;
 	}
 	close_all(pipex);
-	while (waitpid(-1, NULL, 0) < 0)
-		;
+	i = -1;
+	while (++i < pipex->cmd_nbr)
+		waitpid(pipex->children[i], NULL, 0);
 }

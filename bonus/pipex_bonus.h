@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:49:00 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/22 10:54:04 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/22 16:53:08 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 # include "../libft/libft.h"
 
 # define ARGS_ERROR	"Wrong args input\nMust be : ./pipex_bonus file1 \
-cmd_x_times file2\n"
+cmd_x_times file2"
 # define HERE_DOC_ARGS_ERROR "Wrongs args input\n Must be : ./pipex_bonus \
-here_doc LIMITER cmd1 cmd2 (cmd_x_times) file\n"
+here_doc LIMITER cmd1 cmd2 (cmd_x_times) file"
 
 typedef struct s_pipex
 {

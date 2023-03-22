@@ -6,11 +6,12 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 16:15:24 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/21 10:39:03 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/22 16:47:21 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <fcntl.h>
 
 static char	*ft_strjoin_gnl(const char *s1, const char *s2)
 {
@@ -123,10 +124,11 @@ static char	*ft_clear(char *stock)
 	return (new_stock);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, char *end)
 {
 	static char	*stock;
 	char		*line;
+	size_t		len;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -141,6 +143,12 @@ char	*get_next_line(int fd)
 	line = ft_get_str(stock);
 	if (!line)
 		return (free(stock), NULL);
+	len = ft_strlen(line) - 1;
+	if ((ft_strncmp(line, end, len) == 0) && (ft_strlen(end) == len))
+	{
+		free(stock);
+		return (line);
+	}
 	stock = ft_clear(stock);
 	return (line);
 }
