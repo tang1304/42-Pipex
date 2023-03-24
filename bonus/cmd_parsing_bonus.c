@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:50:49 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/22 15:08:38 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/24 09:44:01 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	check_if_absolute_path(t_pipex *pipex, \
 
 	if ((cmd_args[0][0] == '.' && cmd_args[0][1] == '/' && \
 		!ft_isalnum(cmd_args[0][2])) || (cmd_args[0][0] == '/' && \
-			!ft_isalnum(cmd_args[0][1])))
+			(!ft_isalnum(cmd_args[0][1]) || cmd_args[0][1] == '/')))
 	{
 		write(2, cmd_args[0], ft_strlen(cmd_args[0]));
 		write(2, ": Is a directory\n", 18);
@@ -65,8 +65,7 @@ static void	pre_check_on_cmd(t_pipex *pipex, char *argv)
 	}
 }
 
-static void	loop_on_path(t_pipex *pipex, char **cmd_args, \
-							char **envp)
+static void	loop_on_path(t_pipex *pipex, char **cmd_args, char **envp)
 {
 	int		i;
 	char	*cmd;

@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:50:32 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/22 10:14:32 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/24 11:57:45 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	open_files(t_pipex *pipex, int ac, char **av)
 {
 	if (pipex->here_doc == 1)
 	{
-		pipex->output = open(av[ac - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		pipex->output = open(av[ac - 1], O_CREAT | O_WRONLY | O_APPEND, 0644);
 		if (pipex->output == -1)
 			perror(av[ac - 1]);
 		pipex->cmd = 3;

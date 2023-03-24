@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 17:24:43 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/22 09:04:31 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/24 11:36:43 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,19 @@ static void	check_if_absolute_path(t_pipex *pipex, \
 
 	if ((cmd_args[0][0] == '.' && cmd_args[0][1] == '/' && \
 		!ft_isalnum(cmd_args[0][2])) || (cmd_args[0][0] == '/' && \
-			!ft_isalnum(cmd_args[0][1])))
+			(!ft_isalnum(cmd_args[0][1]) || cmd_args[0][1] == '/')))
 	{
 		write(2, cmd_args[0], ft_strlen(cmd_args[0]));
 		write(2, ": Is a directory\n", 18);
 		free_split(cmd_args);
-		free_split(pipex->paths);
-		exit(EXIT_FAILURE);
+		pre_check_cmd_error(pipex);
 	}
 	fd = open(cmd_args[0], O_RDONLY);
 	if (fd == -1 || access(cmd_args[0], X_OK))
 	{
 		perror(cmd_args[0]);
 		free_split(cmd_args);
-		free_split(pipex->paths);
-		exit(EXIT_SUCCESS);
+		pre_check_cmd_error(pipex);
 	}
 	if (execve(cmd_args[0], cmd_args, envp) == -1)
 	{
@@ -57,16 +55,13 @@ static void	pre_check_on_cmd(t_pipex *pipex, char *argv)
 	if (argv[0] == '\0')
 	{
 		write(2, "Command '' not found\n", 21);
-		close_all(pipex);
-		free_split(pipex->paths);
-		exit(EXIT_SUCCESS);
+		pre_check_cmd_error(pipex);
 	}
 	if (argv[0] == '.' && !argv[1])
 	{
 		write(2, ".: filename argument required\n", 30);
 		write(2, ".: usage: . filename [arguments]\n", 33);
-		free_split(pipex->paths);
-		exit(EXIT_SUCCESS);
+		pre_check_cmd_error(pipex);
 	}
 }
 

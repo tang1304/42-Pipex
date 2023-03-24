@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 10:10:15 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/22 16:03:48 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/24 10:20:25 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,10 @@ static void	get_hd_input(t_pipex *pipex, char **argv)
 	}
 }
 
-void	here_doc_init(t_pipex *pipex, char **argv, int argc)
+static void	pipe_and_fork(t_pipex *pipex, char **argv)
 {
 	int	hd_pid;
 
-	if (argc < 6)
-	{
-		free(pipex->children);
-		ft_putendl_fd(ARGS_ERROR, 2);
-		exit(EXIT_FAILURE);
-	}
 	if (pipe(pipex->pipes) == -1)
 	{
 		free(pipex->children);
@@ -65,8 +59,20 @@ void	here_doc_init(t_pipex *pipex, char **argv, int argc)
 	if (hd_pid == 0)
 		get_hd_input(pipex, argv);
 	waitpid(hd_pid, NULL, 0);
+}
+
+void	here_doc_init(t_pipex *pipex, char **argv, int argc)
+{
+	if (argc < 6)
+	{
+		free(pipex->children);
+		ft_putendl_fd(ARGS_ERROR, 2);
+		exit(EXIT_FAILURE);
+	}
+	pipe_and_fork(pipex, argv);
 	if (dup2(pipex->pipes[0], STDIN_FILENO) == -1)
 	{
+		close_fds(pipex);
 		free(pipex->children);
 		ft_perror("Dupe error");
 	}

@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:50:41 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/22 17:05:17 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/24 09:02:18 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,12 @@ void	get_cmd_error(char *cmd)
 	exit(EXIT_FAILURE);
 }
 
-void	directory_error(char *str)
-{
-	ft_putstr_fd(str, 2);
-	write(2, ": Is a directory\n", 17);
-	exit(EXIT_FAILURE);
-}
-
 void	execve_error(t_pipex *pipex, char **cmd_args)
 {
 	free(pipex->children);
 	free_split(cmd_args);
 	free_split(pipex->paths);
 	write(2, "Execve error\n", 13);
+	close_all(pipex);
 	exit(EXIT_FAILURE);
 }

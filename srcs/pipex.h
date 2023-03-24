@@ -6,7 +6,7 @@
 /*   By: tgellon <tgellon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:55:52 by tgellon           #+#    #+#             */
-/*   Updated: 2023/03/22 16:53:31 by tgellon          ###   ########lyon.fr   */
+/*   Updated: 2023/03/24 11:35:59 by tgellon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void	close_all(t_pipex *pipex);
 /*	errors.c	*/
 void	ft_perror(char *str);
 void	dup2_error(t_pipex *pipex);
+void	pre_check_cmd_error(t_pipex *pipex);
 void	get_cmd_error(char *cmd);
 void	execve_error(t_pipex *pipex, char **cmd_args);
-void	directory_error(char *str);
 
 #endif
